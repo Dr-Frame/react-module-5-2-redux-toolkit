@@ -4,9 +4,14 @@ import { createReducer } from '@reduxjs/toolkit';
 import actions from './todos-actions';
 
 const items = createReducer([], {
-  [actionTypes.ADD]: (state, { payload }) => [...state, payload],
-  [actionTypes.DELETE]: (state, action) =>
+  [actions.addTodo]: (state, { payload }) => [...state, payload],
+  [actions.deleteTodo]: (state, action) =>
     state.filter(todo => todo.id !== action.payload),
+  [actions.toggleCompleted]: (state, { payload }) => {
+    state.map(todo =>
+      todo.id === payload ? { ...todo, completed: !todo.completed } : todo,
+    );
+  },
 });
 
 /* const items = (state = [], { type, payload }) => {
@@ -22,7 +27,12 @@ const items = createReducer([], {
   }
 }; */
 
-const filter = (state = '', { type, payload }) => {
+const filter = createReducer('', {
+  //если не нужен стейт то ставим _ что бы линтер не ругался
+  [actions.changeFilter]: (_, { payload }) => payload,
+});
+
+/* const filter = (state = '', { type, payload }) => {
   switch (type) {
     case actionTypes.CHANGE_FILTER:
       return payload;
@@ -30,7 +40,7 @@ const filter = (state = '', { type, payload }) => {
     default:
       return state;
   }
-};
+}; */
 
 export default combineReducers({
   items,

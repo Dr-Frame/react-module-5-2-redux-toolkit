@@ -1,6 +1,5 @@
 import shortid from 'shortid';
 import { createAction } from '@reduxjs/toolkit';
-import actionTypes from './todos-types';
 
 //шортайди не вернет как над, поэтому второй аргумент функция
 //которая покажет какой обьект нам нужно вернуть
@@ -31,4 +30,11 @@ deleteTodo(5);
 
 const changeFilter = createAction('todos/changeFilter');
 
-export default { addTodo, deleteTodo, changeFilter };
+const toggleCompleted = createAction('todos/toggleCompleted');
+
+export default {
+  addTodo,
+  deleteTodo,
+  changeFilter,
+  toggleCompleted,
+};
